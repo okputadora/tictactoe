@@ -54,7 +54,7 @@ h1{
 }
 
 #letter-select{
-  display: flex;
+  display: none;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -75,4 +75,35 @@ h1{
 #letters > h3:hover{
   opacity: 1;
   cursor: pointer;
+}
+
+#board{
+  align-self: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-content: flex-start;
+  flex-wrap: wrap;
+}
+
+.sq{
+  margin: 0px;
+  padding: 0px;
+  height: 100px;
+  width: 100px;
+}
+
+#one, #four{
+  border-right: 1px solid black;
+  border-bottom: 1px solid black;
+}
+#two, #five{
+  border-bottom: 1px solid black;
+  border-right: 1px solid black;
+}
+#three, #six{
+  border-bottom: 1px solid black;
+}
+#seven, #eight{
+  border-right: 1px solid black;
 }
