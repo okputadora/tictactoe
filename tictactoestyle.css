@@ -30,8 +30,7 @@ h1{
 }
 
 #player-select{
-  /*switch back to display: flex;*/
-  display: none;
+  display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -79,7 +78,7 @@ h1{
 
 #board{
   align-self: center;
-  display: flex;
+  display: none;
   align-items: center;
   justify-content: center;
   align-content: flex-start;
