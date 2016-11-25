@@ -90,6 +90,12 @@ h1{
   padding: 0px;
   height: 100px;
   width: 100px;
+  font-size: 100px;
+  text-align: center;
+}
+
+.sq:hover{
+  cursor: pointer;
 }
 
 #one, #four{
@@ -105,4 +111,17 @@ h1{
 }
 #seven, #eight{
   border-right: 1px solid black;
+}
+
+#stats{
+  display: none;
+  margin-top: 10px;
+  border: 1px solid black;
+  border-radius: 6px;
+  width:350px;
+  height: 0;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  transform:
 }
