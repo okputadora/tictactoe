@@ -5,6 +5,7 @@ var activePlayer = 0;
 var round = 0;
 
 function initiateGame(){
+  console.log("Humans turn");
   $(".sq").click(function(){
     var id = this.id;
     $("#" + id).html(letters[userLetter]);
@@ -12,21 +13,23 @@ function initiateGame(){
     else{userLetter = 0;}
     // check if someone has won
     if (checkForWinner()){
-      // game is won
-    };
+      console.log("game won");
+      $("#game-container").html(letters[userLetter] + " has won");
+    }
     // increment round;
-    round += 1;
-    // if all the squares have been filled
-    if (round === 8){
-
+    else {
+      round += 1;
+      // if all the squares have been filled
+      if (round === 8){
+        $("game-container").html("It was a draw")
+      }
+      if ($("#player2Name").html() == "Computer"){
+        againstComputer();
+      }
+      else {initiateGame();}
     }
-    if ($("#player2Name").html() == "Computer"){
-      console.log("Robot's turn");
-      againstComputer();
-    }
-    else {initiateGame();}
   });
-}
+ }
 
 function checkForWinner(){
   var winner = false;
@@ -34,12 +37,9 @@ function checkForWinner(){
   arr = [0, 1, 2];
   var i = 0;
   while (i < 7){
-    console.log(arr);
     //check if they are all the same
     var check = $("#s" + arr[0]).html();
-    console.log(check);
-    if (check == ""){console.log("continue " + i)}
-    else if ($("#s" + arr[1]).html() === check && $("#s" + arr[2]).html() === check){
+    if ($("#s" + arr[1]).html() === check && $("#s" + arr[2]).html() === check && check != ""){
       winner = true;
       console.log("winner");
       break;
@@ -66,11 +66,11 @@ function checkForWinner(){
     }
     i++;
   }
-
   return winner;
 }
 
 function againstComputer(){
+  console.log("Comps turn");
   // randomly fill in squares
   var sqrFilled = false;
   while (sqrFilled === false){
@@ -80,13 +80,14 @@ function againstComputer(){
     }
   }
   if (checkForWinner()){
-    // game is won
+    $("#game-container").html(letters[userLetter] + " has won");
   };
   activePLayer = 0;
   round += 1;
   $("#s" + sqr).html(letters[userLetter]);
   if (userLetter === 0){userLetter = 1;}
   else{userLetter = 0;}
+  initiateGame();
 }
 
 $(document).ready(function(){
