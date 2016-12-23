@@ -98,18 +98,18 @@ h1{
   cursor: pointer;
 }
 
-#one, #four{
+#s0, #s3{
   border-right: 1px solid black;
   border-bottom: 1px solid black;
 }
-#two, #five{
+#s1, #s4{
   border-bottom: 1px solid black;
   border-right: 1px solid black;
 }
-#three, #six{
+#s2, #s5{
   border-bottom: 1px solid black;
 }
-#seven, #eight{
+#s6, #s7{
   border-right: 1px solid black;
 }
 
