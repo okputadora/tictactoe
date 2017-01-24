@@ -40,35 +40,39 @@ function initiateGame(){
 function checkForWinner(){
   console.log("checking for winner");
   var winner = false;
-  // 7 possible lines to win on
+  // 8 possible lines to win on 3 across 3 down 2 diagonal
   arr = [0, 1, 2];
   var i = 0;
-  while (i < 7){
+  while (i < 9){
     //check if they are all the same
     var check = $("#s" + arr[0]).html();
+    if (arr[0] === 2 && arr[1] === 4 && arr[2] === 6){
+      console.log("in here");
+    }
     if ($("#s" + arr[1]).html() === check && $("#s" + arr[2]).html() === check && check != ""){
       winner = true;
       console.log("There is a winner");
       break;
     }
     // increment line of squares to search through
-    if (i < 1){
+    if (i < 2){
       for (var j in arr){
         arr[j] += 3;
       }
     }
-    else if (i === 2){
+    else if (i === 3){
       arr = [0, 3, 6]
     }
-    else if (i < 5){
+    else if (i < 6){
       for (j in arr){
         arr[j] = arr[j] + 1;
       }
     }
-    else if (i === 5){
+    else if (i === 6){
       arr = [0, 4, 8];
     }
-    else if (i === 6){
+    else if (i === 7){
+      console.log("INNNHERE");
       arr = [2, 4, 6];
     }
     i++;
