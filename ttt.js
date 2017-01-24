@@ -6,15 +6,22 @@ var round = 0;
 
 function initiateGame(){
   console.log("Humans turn");
-  $(".sq").click(function(){
+  console.log("Round: " + round);
+  // .off unbinds the event handler so it doesn't set it off
+  // multiple times
+  $(".sq").off();
+  $(".sq").on("click", function(){
     var id = this.id;
+    console.log("Letter: " + userLetter);
     $("#" + id).html(letters[userLetter]);
     if (userLetter === 0){userLetter = 1;}
     else{userLetter = 0;}
     // check if someone has won
     if (checkForWinner()){
-      console.log("game won");
-      $("#game-container").html(letters[userLetter] + " has won");
+      setTimeout(function(){
+        console.log("game won");
+        $("#game-container").html(letters[userLetter] + " has won");
+      }, 2000)
     }
     // increment round;
     else {
@@ -22,11 +29,14 @@ function initiateGame(){
       // if all the squares have been filled
       if (round === 8){
         $("game-container").html("It was a draw")
+        
       }
       if ($("#player2Name").html() == "Computer"){
+        console.log("Initiating computer response");
         againstComputer();
       }
-      else {initiateGame();}
+      else {initiateGame();
+      console.log("Initiating game");}
     }
   });
  }
@@ -71,6 +81,7 @@ function checkForWinner(){
 
 function againstComputer(){
   console.log("Comps turn");
+  console.log("Round: " + round);
   // randomly fill in squares
   var sqrFilled = false;
   while (sqrFilled === false){
@@ -84,9 +95,10 @@ function againstComputer(){
   };
   activePLayer = 0;
   round += 1;
+  console.log("user letter: " + userLetter);
   $("#s" + sqr).html(letters[userLetter]);
-  if (userLetter === 0){userLetter = 1;}
-  else{userLetter = 0;}
+  // if (userLetter === 0){userLetter = 1;}
+  // else{userLetter = 0;}
   initiateGame();
 }
 
