@@ -125,3 +125,9 @@ h1{
   padding: 10px;
   transform:
 }
+
+#winner{
+  margin-top: 20px;
+}
+
+#reset{cursor:pointer;}

@@ -1,14 +1,13 @@
 var numPlayer = 1;
 var letters = ["X", "O"];
 var userLetter = 0;
+// 0 = human 1 = robot
 var activePlayer = 0;
 var round = 0;
 var ply1Score = 0;
 var ply2Score = 0;
 var player1Id = 0;
 function displayWinner(){
-  console.log("in hereeee");
-  console.log(activePlayer);
   // display winner
   if (activePlayer === 1){
     $("#winner").html("Player 2 wins!")
@@ -22,22 +21,24 @@ function displayWinner(){
   }
   setTimeout(function(){
   // clear the board
+  userLetter = 0;
   for (var i = 0; i < 9; i++){
     $("#s" + i).html("");
     $("#winner").html("");
   }
-  userLetter = 0;
-  if (player1Id === 1){
-    console.log("In here");
+  if (player1Id === 1 && numPlayer === 1){
+    activePlayer = 1;
     againstComputer();
   }
   else{
+    acitvePlayer = 0;
     initiateGame();}
   }, 2500)
 }
 function initiateGame(){
   // .off unbinds the event handler so it doesn't set it off
   // multiple times
+  console.log("Human responding...");
   $(".sq").off();
   $(".sq").on("click", function(){
   // makes the button unclickable when this function isn't running
@@ -52,6 +53,9 @@ function initiateGame(){
     else {
       if (userLetter === 0){userLetter = 1;}
       else{userLetter = 0;}
+      if (activePlayer === 0){activePlayer = 1;}
+      else{activePlayer = 0;}
+      console.log("Active Player after human: " + activePlayer);
       round += 1;
       // if all the squares have been filled
       if (round === 8){
@@ -66,7 +70,6 @@ function initiateGame(){
   });
  }
 function checkForWinner(){
-  console.log("checking for winner");
   var winner = false;
   // 8 possible lines to win on 3 across 3 down 2 diagonal
   arr = [0, 1, 2];
@@ -74,17 +77,12 @@ function checkForWinner(){
   while (i < 9){
     //check if they are all the same
     var check = $("#s" + arr[0]).html();
-    console.log("check " + i + ": " + check);
-    console.log(arr);
-    console.log($("#s" + arr[1]).html());
-    console.log($("#s" + arr[2]).html());
     if ($("#s" + arr[1]).html() === check && $("#s" + arr[2]).html() === check && check != ""){
-      console.log("winnner");
       winner = true;
       break;
     }
     // increment line of squares to search through
-    if (i < 2){
+    if (i < 3){
       for (var j in arr){
         arr[j] += 3;
       }
@@ -108,6 +106,7 @@ function checkForWinner(){
   return winner;
 }
 function againstComputer(){
+  console.log("Computer responding...");
   // randomly fill in squares
   var sqrFilled = false;
   while (sqrFilled === false){
@@ -120,12 +119,20 @@ function againstComputer(){
   $("#s" + sqr).html(letters[userLetter]);
   if (checkForWinner()){
     displayWinner();
+    return;
   }
-  activePLayer = 0;
   round += 1;
 
   if (userLetter === 0){userLetter = 1;}
   else{userLetter = 0;}
+  console.log(activePlayer);
+  if (activePlayer === 0){activePlayer = 1;}
+  else{
+    console.log("in here");
+    activePlayer = 0;
+    console.log("Active player after robot: " + activePlayer);
+}
+
   initiateGame();
 }
 $(document).ready(function(){
@@ -142,7 +149,7 @@ $(document).ready(function(){
   // number of players
   $("#2player").on("click", function(){
     numPlayer = 2;
-    $("#player2Name").html("Player 2");
+    $("#player2Name").html("Human 2");
   });
   $("#1player").on("click", function(){
     $("#player2Name").html("Computer");
@@ -150,9 +157,14 @@ $(document).ready(function(){
   // player letters
   $("#o").on("click", function(){
     player1Id = 1;
-    againstComputer();
+    activePlayer = 1;
+    console.log(activePlayer);
+    if(numPlayer === 1){againstComputer();}
+    else{initiateGame();}
   });
   $("#x").on("click", function(){
+    player1Id = 0;
+    activePlayer = 0;
     initiateGame();
   });
 
