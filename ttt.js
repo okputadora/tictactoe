@@ -3,21 +3,50 @@ var letters = ["X", "O"];
 var userLetter = 0;
 var activePlayer = 0;
 var round = 0;
-
+var ply1Score = 0;
+var ply2Score = 0;
+var player1Id = 0;
+function displayWinner(){
+  console.log("in hereeee");
+  console.log(activePlayer);
+  // display winner
+  if (activePlayer === 1){
+    $("#winner").html("Player 2 wins!")
+    ply2Score += 1;
+    $("#player2Score").html(ply2Score);
+  }
+  else{
+    $("#winner").html("Player 1 wins!")
+    ply1Score += 1;
+    $("#player1Score").html(ply1Score);
+  }
+  setTimeout(function(){
+  // clear the board
+  for (var i = 0; i < 9; i++){
+    $("#s" + i).html("");
+    $("#winner").html("");
+  }
+  userLetter = 0;
+  if (player1Id === 1){
+    console.log("In here");
+    againstComputer();
+  }
+  else{
+    initiateGame();}
+  }, 2500)
+}
 function initiateGame(){
   // .off unbinds the event handler so it doesn't set it off
   // multiple times
   $(".sq").off();
   $(".sq").on("click", function(){
+  // makes the button unclickable when this function isn't running
+  $(".sq").off();
     var id = this.id;
-    console.log("Letter: " + userLetter);
     $("#" + id).html(letters[userLetter]);
     // check if someone has won
     if (checkForWinner()){
-      setTimeout(function(){
-        console.log("game won");
-        $("#game-container").html(letters[userLetter] + " has won");
-      }, 2000)
+      displayWinner();
     }
     // increment round;
     else {
@@ -36,22 +65,22 @@ function initiateGame(){
     }
   });
  }
-
 function checkForWinner(){
   console.log("checking for winner");
   var winner = false;
   // 8 possible lines to win on 3 across 3 down 2 diagonal
   arr = [0, 1, 2];
-  var i = 0;
+  var i = 1;
   while (i < 9){
     //check if they are all the same
     var check = $("#s" + arr[0]).html();
-    if (arr[0] === 2 && arr[1] === 4 && arr[2] === 6){
-      console.log("in here");
-    }
+    console.log("check " + i + ": " + check);
+    console.log(arr);
+    console.log($("#s" + arr[1]).html());
+    console.log($("#s" + arr[2]).html());
     if ($("#s" + arr[1]).html() === check && $("#s" + arr[2]).html() === check && check != ""){
+      console.log("winnner");
       winner = true;
-      console.log("There is a winner");
       break;
     }
     // increment line of squares to search through
@@ -72,14 +101,12 @@ function checkForWinner(){
       arr = [0, 4, 8];
     }
     else if (i === 7){
-      console.log("INNNHERE");
       arr = [2, 4, 6];
     }
     i++;
   }
   return winner;
 }
-
 function againstComputer(){
   // randomly fill in squares
   var sqrFilled = false;
@@ -87,49 +114,59 @@ function againstComputer(){
     sqr = Math.floor(Math.random() * 8);
     if ($("#s" + sqr).html() === ""){
       sqrFilled = true;
+
     }
   }
+  $("#s" + sqr).html(letters[userLetter]);
   if (checkForWinner()){
-    $("#game-container").html(letters[userLetter] + " has won");
-  };
+    displayWinner();
+  }
   activePLayer = 0;
   round += 1;
-  $("#s" + sqr).html(letters[userLetter]);
+
   if (userLetter === 0){userLetter = 1;}
   else{userLetter = 0;}
   initiateGame();
 }
-
 $(document).ready(function(){
-  $(".ply-but").click(function(){
+  $(".ply-but").on("click", function(){
     $("#player-select").css("display", "none");
     $("#letter-select").css("display", "flex");
   });
-
-
-
-  $(".let-but").click(function(){
+  $(".let-but").on("click", function(){
     $("#letter-select").css("display", "none");
     $("#board").css("display", "flex");
     $("#stats").css("height", "100px");
     $("#stats").css("display", "flex");
   });
-
   // number of players
-  $("#2player").click(function(){
+  $("#2player").on("click", function(){
     numPlayer = 2;
     $("#player2Name").html("Player 2");
   });
-  $("#1player").click(function(){
+  $("#1player").on("click", function(){
     $("#player2Name").html("Computer");
   });
-
   // player letters
-  $("#o").click(function(){
+  $("#o").on("click", function(){
+    player1Id = 1;
     againstComputer();
   });
-
-  $("#x").click(function(){
+  $("#x").on("click", function(){
     initiateGame();
   });
+
+  $("#reset").on("click", function(){
+    for (var i = 0; i < 9; i++){
+      $("#s" + i).html("");
+      $("#winner").html("");
+      ply1Score = 0;
+      ply2Score = 0;
+      userLetter = 0;
+      $("#player2Score").html(ply2Score);
+      $("#player1Score").html(ply1Score);
+      $("#player-select").css("display", "flex");
+      $("#board").css("display", "none");
+    }
+  })
 })
